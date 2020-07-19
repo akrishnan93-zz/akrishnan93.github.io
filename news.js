@@ -9,11 +9,11 @@ window.addEventListener('load', () => { //Once this window loads, this function 
     let item7 = document.getElementById("item7text");
     let item8 = document.getElementById("item8text");
 
-    //let proxy = "https://cors-anywhere.herokuapp.com/";
-    let api = 'https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=86b9ab1fbd724b78b9d96f466433e4a6';
+    let proxy = "https://cors-anywhere.herokuapp.com/";
+    let api = 'newsapi.org/v2/top-headlines?country=us&category=business&apiKey=86b9ab1fbd724b78b9d96f466433e4a6';
     
 
-    fetch (api)
+    fetch (proxy + api)
     .then (response => {
         return response.json();
     })

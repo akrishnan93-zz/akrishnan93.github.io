@@ -1,0 +1,117 @@
+<html>
+    <head>
+        <link rel="shortcut icon" href="#"> 
+        <meta charset="UTF-8" />
+        <meta name="viewport" content = "width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta http-equiv="refresh" content="300"/>
+        <link rel = "stylesheet" href ="./style.css" />
+        <title>Page Title</title>
+    </head>
+
+    <body>  
+        <div class="back">
+            <div class="back_button"><a class="back_e" href="main.html">Back</a></div>
+        </div>
+
+
+        <h1>Weather</h1>
+        <p>By: Anand Krishnan</p>
+
+        <div class="location" height="20">
+            <h1 class="location-timezone">City</h1>
+            <canvas id="icon" width="128" height="150"></canvas>
+        </div>
+
+        <div class="temperature">
+            <div class="degree-section">
+                <h2 class="temperature-degree">34</h2>
+                <span>F</span>
+            </div>
+            <div class="temperature-description">Sample Description</div>
+        </div>
+        
+        <div class="daily">
+            <div class="day1">
+                <h2 class="day1Title">Day 1</h3>
+
+                <div class="day1min">
+                    <h3 >Day 1 Weather</h3>
+                    <span>F</span>
+                </div>
+
+                <canvas id="icon1" width="128" height="150"></canvas>
+
+                <div class="day1max">
+                    <h3 >Day 1 Weather</h3>
+                    <span>F</span>
+                </div>
+            </div>
+            <div class="day2">
+                <h2 class="day2Title">Day 2</h3>
+                    <div class="day2min">
+                        <h3 >Day 2 Weather</h3>
+                        <span>F</span>
+                    </div>
+                <canvas id="icon2" width="128" height="150"></canvas>
+                <div class="day2max">
+                    <h3 >Day 2 Weather</h3>
+                    <span>F</span>
+                </div>
+            </div>
+            <div class="day3">
+                <h2 class="day3Title">Day 3</h3>
+                    <div class="day3min">
+                        <h3 >Day 3 Weather</h3>
+                        <span>F</span>
+                    </div>
+                <canvas id="icon3" width="128" height="150"></canvas>
+                <div class="day3max">
+                    <h3 >Day 3 Weather</h3>
+                    <span>F</span>
+                </div>
+            </div>
+            <div class="day4">
+                <h2 class="day4Title">Day 4</h3>
+                    <div class="day4min">
+                        <h3 >Day 4 Weather</h3>
+                        <span>F</span>
+                    </div>
+                <canvas id="icon4" width="128" height="150"></canvas>
+                <div class="day4max">
+                    <h3 >Day 4 Weather</h3>
+                    <span>F</span>
+                </div>
+            </div>
+            <div class="day5">
+                <h2 class="day5Title">Day 5</h3>
+                    <div class="day5min">
+                        <h3 >Day 5 Weather</h3>
+                        <span>F</span>
+                    </div>
+                <canvas id="icon5" width="128" height="150"></canvas>
+                <div class="day5max">
+                    <h3 >Day 5 Weather</h3>
+                    <span>F</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="time">Time</div>
+
+
+        <script src="./app.js"></script>
+        <script src="./skycons.js"></script>
+    </body>
+ 
+</html>
+
+<style>
+    .daily {
+        display: flex;
+    }
+    .daily div {
+        border: 1px #ccc solid;
+        padding: 10px;
+    }
+</style>

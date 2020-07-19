@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content = "width=device-width, initial-scale=1.0"/>
+        <link rel="shortcut icon" href="#">
+
+        <link rel = "stylesheet" href ="./style.css" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Calendar</title>
+
+        <style>
+          .calendarTitle {
+            padding: 20px;
+            margin-top: 20px;
+          }
+
+          #event {
+            margin: 15px;
+            margin-left: 100px;
+          }
+
+          .listOfEvents {
+            margin-bottom: 30px;
+          }
+          
+        </style>
+    </head>
+
+    <body>  
+        <div class="back">
+          <div class="back_button"><a class="back_e" href="main.html">Back</a></div>
+        </div>
+    
+        <h1>Calendar</h1>
+        <p>By: Anand Krishnan</p>
+
+        <!--Add buttons to initiate auth sequence and sign out-->
+        <button id="authorize_button" style="display: none;">Authorize</button>
+
+        <div class="calendarTitle">
+          <h3>Upcoming Events: </h3>
+        </div>
+
+        <div class="listOfEvents">
+          <ul>
+            <li id = event class = "event1"></li>
+            <li id = event class = "event2"></li>
+            <li id = event class = "event3"></li>
+            <li id = event class = "event4"></li>
+            <li id = event class = "event5"></li>
+            <li id = event class = "event6"></li>
+            <li id = event class = "event7"></li>
+            <li id = event class = "event8"></li>
+            <li id = event class = "event9"></li>
+            <li id = event class = "event10"></li>
+          </ul>
+        </div>
+
+        <button id="signout_button" style="display: none;">Sign Out</button>
+    
+        <pre id="content" style="white-space: pre-wrap;"></pre>
+
+    
+        <script type="text/javascript">
+          // Client ID and API key from the Developer Console
+          var CLIENT_ID = '689310530051-dpvnfuf2qtuenbdnep8ad89vtku7hma3.apps.googleusercontent.com';
+          var API_KEY = 'AIzaSyD73aKhfLGb0tsq9qffeX972gLT_LICrok';
+    
+          // Array of API discovery doc URLs for APIs used by the quickstart
+          var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+    
+          // Authorization scopes required by the API; multiple scopes can be
+          // included, separated by spaces.
+          var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
+    
+          var authorizeButton = document.getElementById('authorize_button');
+          var signoutButton = document.getElementById('signout_button');
+
+          //DOM elements:
+          let eventsContent = document.querySelector(".events");
+
+          /**
+           *  On load, called to load the auth2 library and API client library.
+           */
+          function handleClientLoad() {
+            gapi.load('client:auth2', initClient);
+          }
+    
+          /**
+           *  Initializes the API client library and sets up sign-in state
+           *  listeners.
+           */
+          function initClient() {
+            gapi.client.init({
+              apiKey: API_KEY,
+              clientId: CLIENT_ID,
+              discoveryDocs: DISCOVERY_DOCS,
+              scope: SCOPES
+            }).then(function () {
+              // Listen for sign-in state changes.
+              gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+    
+              // Handle the initial sign-in state.
+              updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+              authorizeButton.onclick = handleAuthClick;
+              signoutButton.onclick = handleSignoutClick;
+            }, function(error) {
+              appendPre(JSON.stringify(error, null, 2));
+            });
+          }
+    
+          /**
+           *  Called when the signed in status changes, to update the UI
+           *  appropriately. After a sign-in, the API is called.
+           */
+          function updateSigninStatus(isSignedIn) {
+            if (isSignedIn) {
+              authorizeButton.style.display = 'none';
+              signoutButton.style.display = 'block';
+              listUpcomingEvents();
+            } else {
+              authorizeButton.style.display = 'block';
+              signoutButton.style.display = 'none';
+            }
+          }
+    
+          /**
+           *  Sign in the user upon button click.
+           */
+          function handleAuthClick(event) {
+            gapi.auth2.getAuthInstance().signIn();
+          }
+    
+          /**
+           *  Sign out the user upon button click.
+           */
+          function handleSignoutClick(event) {
+            gapi.auth2.getAuthInstance().signOut();
+          }
+    
+          /**
+           * Append a pre element to the body containing the given message
+           * as its text node. Used to display the results of the API call.
+           *
+           * @param {string} message Text to be placed in pre element.
+           */
+          function appendPre(message) {
+            var pre = document.getElementById('content');
+            var textContent = document.createTextNode(message + '\n');
+            pre.appendChild(textContent);
+          }
+    
+          /**
+           * Print the summary and start datetime/date of the next ten events in
+           * the authorized user's calendar. If no events are found an
+           * appropriate message is printed.
+           */
+          function listUpcomingEvents() {
+            gapi.client.calendar.events.list({
+              'calendarId': 'primary',
+              'timeMin': (new Date()).toISOString(),
+              'showDeleted': false,
+              'singleEvents': true,
+              'maxResults': 10,
+              'orderBy': 'startTime'
+            }).then(function(response) {
+              var events = response.result.items;
+
+              let content = "";
+    
+              if (events.length > 0) {
+                for (i = 0; i < events.length; i++) {
+                  var event = events[i];
+                  var when = event.start.dateTime;
+                  if (!when) {
+                    when = event.start.date;
+                  }
+                  //appendPre(event.summary + ' (' + when + ')');
+                  document.querySelector('.event'+ (i + 1)).textContent = event.summary + ' (' + when + ')';
+                  //content += event.summary + ' (' + when + ')\n';
+                }
+              } else {
+                //appendPre('No upcoming events found.');
+                document.querySelector('.event1') = 'No upcoming events found on calendar';
+              }
+            });
+          }
+    
+        </script>
+    
+        <script async defer src="https://apis.google.com/js/api.js"
+          onload="this.onload=function(){};handleClientLoad()"
+          onreadystatechange="if (this.readyState === 'complete') this.onload()">
+        </script>
+    </body>
+ 
+</html>
